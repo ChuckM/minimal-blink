@@ -8,7 +8,7 @@ trying to figure out how the heck to just to a basic bare metal piece
 of code, well this is it.
 
 If you have the STM32F4-DISCOVERY board (which you can buy at 
-[Element14]@(http://www.element14.com/community/docs/DOC-40508/l/stmicroelectronics-stm32f4-discovery-kit)
+[Element14](http://www.element14.com/community/docs/DOC-40508/l/stmicroelectronics-stm32f4-discovery-kit)
 and you have the
 [Summon ARM Toolchain](https://github.com/esden/summon-arm-toolchain),
 then you should be able to just type 'make' and using the STLink tool
