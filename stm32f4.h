@@ -218,15 +218,6 @@ typedef struct
 #define RCC_BASE              (AHB1PERIPH_BASE + 0x3800)
 #define RCC                 ((RCC_TypeDef *) RCC_BASE)
 
-/* verify we need this */
-#define SET_BIT(REG, BIT)     ((REG) |= (BIT))
-#define CLEAR_BIT(REG, BIT)   ((REG) &= ~(BIT))
-#define READ_BIT(REG, BIT)    ((REG) & (BIT))
-#define CLEAR_REG(REG)        ((REG) = (0x0))
-#define WRITE_REG(REG, VAL)   ((REG) = (VAL))
-#define READ_REG(REG)         ((REG))
-#define MODIFY_REG(REG, CLEARMASK, SETMASK)  WRITE_REG((REG), (((READ_REG(REG)) & (~(CLEARMASK))) | (SETMASK)))
-
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
