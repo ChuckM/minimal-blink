@@ -1,0 +1,60 @@
+#!/usr/bin/perl
+#
+# dump_hex - a hacked up perl script for "dumping" Intel HEX files to
+# show you what is in them as if it were "memory". We use this to show
+# what the .hex file will program on the STM32F4-DISCOVERY board.
+#
+use strict;
+use warnings;
+
+use POSIX qw( isprint );
+
+my $digits;
+
+for (my $ndx = 0; $ndx < 16; $ndx++) {
+    $digits->{substr("0123456789abcdef", $ndx, 1)} = $ndx;
+}
+
+my $addr = "0000";
+my $offset = "0000";
+my $data;
+my $data_a;
+my $bytes;
+
+while (my $l = <>) {
+    chomp($l);
+    $data = [];
+    $data_a = "";
+
+    next if $l !~ /^:/;
+    if ($l =~ /:02000004/) {
+        $addr = substr($l, 9, 2) . substr($l, 11, 2);
+        next;
+    } 
+    if ($l =~ /:[0-9A-F]{6}00/) {
+        $offset = substr($l, 3, 4);
+        $bytes = num($digits, substr($l, 1, 2));
+        for (my $ndx = 0; $ndx < $bytes; $ndx++) {
+            push @$data, substr($l, 9 + $ndx*2, 2);
+            my $cc = chr( num($digits, substr($l, 9 + $ndx*2, 2)));
+            $data_a .= (isprint ($cc)) ? $cc : '.';
+    
+        }
+        print $addr . $offset . " : " . join(" ", @$data) ." $data_a\n";
+    }
+}
+
+
+sub num {
+    my ($d, $v) = @_;
+    my @digits = reverse (split '', $v);
+    my $base = 16;
+    my $result = 0;
+    my $p = 1;
+    foreach my $q (@digits) {
+        $result += $d->{lc $q} * $p;
+        $p *= 16;
+    }
+    return $result;
+}
+
